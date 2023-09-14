@@ -70,15 +70,55 @@ button:focus-visible {
 
 
 /* CSS */
-.products {
-  flex-basis: 200px;
-  flex-grow: 1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin: 10px;
-  padding: 10px;
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  background-color: hsla(225.00000000000003,5.128205128205122%,54.117647058823536%,1);
 }
 
-img {
-  height: 60%;
-  width: 40%;
+h2 {
+  text-decoration: underline;
 }
+
+/* ON A SMALL DEVICE */
+@media (max-width: 500px) {
+  
+
+  /* all products div */ 
+  .products {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 56px;
+    align-items: start;
+  }
+  
+  /* product image inside the all products div */ 
+  img {
+    height: 400px;
+    width: 100%;
+    align-self: center;
+    border-radius: 12px;
+  }
+
+  /* cart button on the products page */
+  .add-cart {
+    width: 44%;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    font-family: "Lucida Grande", Geneva, Verdana, Arial, Helvetica, sans-serif;
+    line-height: 26px;
+  }
+
+  p {
+      line-height: 0;
+  }
+  h4 {
+      margin-bottom: 0;
+  }
+
+} /* END OF MOBILE MODE */
+
+
+/* DESKTOP MODE */

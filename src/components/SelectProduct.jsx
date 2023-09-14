@@ -17,6 +17,7 @@ export default function SelectProduct() {
                 const response = await fetch(`https://fakestoreapi.com/products/${id}`);
                 const productObj = await response.json();
                 setProduct(productObj);
+                console.log("single product", productObj);
             }
             catch(error) {
                 console.log("Error fetching a single product", error);
@@ -30,7 +31,7 @@ export default function SelectProduct() {
         <div className="a-product">
             <h4>{product.name}</h4>
             <img src={product.image} />
-            <p> Breed: {product.description} </p>
+            <p> Description <br/> {product.description} </p>
         </div>
     </>
     )

@@ -1,37 +1,70 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { Link, useFetcher } from "react-router-dom";
 
 
 //Sign up form component
 export default function SignUp( {token, setToken} ) {
     //state variables for the form inputs
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null); // error for API not functioning
+    const [name, setName] = useState("");
+    const [nameIsValid, setNameIsValid] = useState(false);
 
-    const [userError, setUserError] = useState("");
-    const [passError, setPassError] = useState("");
+    const [userEmail, setUserEmail] = useState("");
+    const [emailIsValid, setEmailIsValid] = useState(false);
+
+    const [password, setPassword] = useState("");
+    const [passwordIsValid, setPasswordIsValid] = useState(false);
+
+    const [passwordMatch, setPasswordMatch] = useState("");
+    const [matchIsValid, setMatchIsValid] = useState(false);
+
+    //error message and successful submission of the form
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState(false);
+
+
+    //Validation for name
+    useEffect(() => {
+        //name is valid, set it to true
+        setNameIsValid(true);
+    }, [])
+
+
+    //Validation for the password matching
+    useEffect(() => {
+
+        //set valid if the password has been tested to be correct
+        setPasswordIsValid(true);
+        //password and confirm password states match, set it to true
+        setMatchIsValid(password === passwordMatch);
+    }, [password, passwordMatch])
+
+
+    //Display error message 
+    useEffect(() => {
+        setErrorMessage("");
+    }, [userEmail, password, passwordMatch]);
 
     //async function
     async function handleSubmit(event) {
         event.preventDefault();
 
         //validating input 
-        if(username.length < 5) {
-            setUserError('Username must be atleast 5 characters long');
+        if(userEmail.length < 5) {
+            setEmailIsValid('Username must be atleast 5 characters long');
         }
         else {
-            setUserError(null);
+            setErrorMessage(null);
         }
 
         if(password.length < 6) {
-            setPassError('Password must be atleast 6 characters long');
+            setPasswordIsValid('Password must be atleast 6 characters long');
         }
         else {
-            setPassError(null);
+            setErrorMessage(null);
         }
 
         // only POST data after it has been validated - input error is null
-        if(userError === null && passError === null) {
+        if(userEmail === null && passError === null) {
             //using the API
             try{
                 const fetchData = await fetch("https://fakestoreapi.com/users", 
@@ -58,17 +91,20 @@ export default function SignUp( {token, setToken} ) {
 
     return (
     <>
-        <h2> Sign Up</h2>
-        {/* conditionally render error message stored by the error state variable */}
-        {error && <p>{error}</p>}
-        <form id="react-form-div" onSubmit={handleSubmit} >
-            <label className="userNpass"> Username{" "} <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <h2> Create your account </h2>
+
+        <form id="sign-up-form" onSubmit={handleSubmit} >
+            <label className="userNpass"> Name{" "} <br/> <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
             </label><br/>
-            <label className="userNpass"> Password{" "} <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <label className="userNpass"> Email{" "} <br/> <input type="email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+            </label><br/>
+            <label className="userNpass"> Password{" "} <br/> <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </label><br/><br/>
-            <button className="react-form-submit-button" >Sign Up</button> <br/>
+            <label className="userNpass"> Confirm Password{" "} <br/> <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </label><br/><br/>
+            <button className="sign-up-submit-button" >Sign Up</button> <br/>
+            <p> Have an account? <Link> Sign In </Link></p>
         </form>
-        {userError} <br/> {passError}
     </>
     )
 }

@@ -7,8 +7,8 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   //hook to navigate to a single product
   const navigate = useNavigate();
-  //getId specific player id
-  const { id } = useParams; 
+  //getId specific product id
+  const { productId } = useParams; 
 
   useEffect(() => {
     async function AllProducts (){
@@ -27,24 +27,20 @@ export default function Products() {
   return (
     <>
     {/* RENDER ALL PRODUCTS */}
+    <h2> Alkiin Net Shop </h2>
         {
-        products.map((product, key) => {
-            //return this div
+        products.map((item, key) => {
             return (
-            <>
-                <div key={key} className="products">
-                    <h2> {product.title} </h2>
-                    <img src={product.image} />
-                    <p> Description <br/> {product.description} </p>
-                    <p> Price: {product.price} </p>
+                <div key={key} className="products" 
+                /* Navigate to the selected products div. Show the details of the product */
+                onClick={ () => navigate(`/product/${item.productId}`) }
+                    >
 
-                    <div>
-                    <   button onClick={ () => navigate(`/players/${product.id}`) }> View </button>
-                    </div> 
+                    <img src={item.image} />
+                    <h4> {item.title} </h4>
+                    <p> ${item.price} </p> <br/>
+                    <button class="add-cart"> add to cart </button>
                 </div>
-
-  
-            </>
             )
         }) 
         } 
