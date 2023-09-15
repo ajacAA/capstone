@@ -33,7 +33,7 @@ export default function SignIn() {
         {successMessage && <p>{successMessage}</p>}
         {newData && <p> Username: {newData} </p>}
         {/* {error && <p>Can't authenticate before signing up.{error}</p>} */}
-        <button onClick={handleClick}> Authenticate Token </button>
+        <button onClick={handleClick}> Sign In </button>
     </>
         )
 }

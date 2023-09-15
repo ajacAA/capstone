@@ -6,15 +6,15 @@ import { useParams } from "react-router-dom";
 export default function SelectProduct() {
     ////using useState hook, create variables to hold players and set players
     const [product, setProduct] = useState({});
-    const { id } = useParams();
+    const { productId } = useParams();
 
-    //useEffect to 
     useEffect( () => {
-        //Calls the fetch function
         async function Product() {
             try {
                 //get sole item from the api
-                const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+                const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
+                console.log("USE PARAMS IN SINGLE PRODUCT", productId)
+                console.log("RESPONSE ", response);
                 const productObj = await response.json();
                 setProduct(productObj);
                 console.log("single product", productObj);
@@ -28,12 +28,20 @@ export default function SelectProduct() {
 
     return (
     <>
-        <div className="a-product">
-            <h4>{product.name}</h4>
-            <img src={product.image} />
-            <p> Description <br/> {product.description} </p>
-        </div>
+        <div className="single-product-main-div" >
+        
+            <button className="single-product-back-button"> Back </button>
+            <div className="single-product">
+                <img src={product.image} />
+                <h4> {product.title} </h4>
+                <p> ${product.price} </p> <br/>
+                <p> Description {product.description} </p>
+            </div>
+                    <button className="add-cart-button"> add to cart </button>
+            </div>
+   
     </>
+
     )
 }
 

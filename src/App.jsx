@@ -2,18 +2,14 @@ import './App.css'
 import Products from './components/Products'
 import SelectProduct from './components/SelectProduct'
 import SignUp from './components/SignUp'
-import { Routes, Route } from 'react-router-dom'
+import RouteLinks from './components/RouteLinks'
+import NewAccount from './components/NewAccount'
 
 function App() {
 
   return (
-    <>
-        <Products />
-        <SignUp />
-        <Routes>
-            <Route path="/" element={<Products/>} />
-            <Route path="/product/:productId" element={<SelectProduct/>} />
-        </Routes>
+    <>  
+        <RouteLinks />
     </>
   )
 }
