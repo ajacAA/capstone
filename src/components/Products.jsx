@@ -35,7 +35,7 @@ export default function Products() {
         {
         products.map((item, key) => {
             return (
-            <>
+           
                 <div key={key} className="product-with-cart-button" >
                     <div className="products"
                         /* Navigate to the selected products div. Show the details of the product */
@@ -47,7 +47,7 @@ export default function Products() {
                         <button className="add-cart-button"> add to cart </button>
                 </div>
    
-            </>
+           
             )
          
         })    

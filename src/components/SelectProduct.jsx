@@ -1,12 +1,13 @@
 /* FETCHING A PRODUCT FROM THE API */
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function SelectProduct() {
     ////using useState hook, create variables to hold players and set players
     const [product, setProduct] = useState({});
     const { productId } = useParams();
+    const navigate = useNavigate();
 
     useEffect( () => {
         async function Product() {
@@ -30,7 +31,8 @@ export default function SelectProduct() {
     <>
         <div className="single-product-main-div" >
         
-            <button className="single-product-back-button"> Back </button>
+            <button className="single-product-back-button"
+            onClick={() => navigate(`/products`)}> Back </button>
             <div className="single-product">
                 <img src={product.image} />
                 <h4> {product.title} </h4>
