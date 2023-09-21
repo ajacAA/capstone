@@ -40,7 +40,7 @@ export default function SelectProduct() {
                 <p> Description {product.description} </p>
             </div>
                     <button className="add-cart-button"> add to cart </button>
-            </div>
+        </div>
    
     </>
 

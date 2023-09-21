@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 //Set Up Account Form 
 export default function NewAccount() {
@@ -73,7 +74,7 @@ export default function NewAccount() {
     }
 
     return (
-        <>
+        <div className="create-account-page">
         {/* conditionally render error message stored by the error state variable */}
             <div id="form-container">
                <form id="account-form" onSubmit={handleSubmit}>
@@ -115,9 +116,11 @@ export default function NewAccount() {
                     <label className="form-input"> Phone
                         <input type="text" value={accountForm.phone} onChange={(e) => setAccountForm({...accountForm, phone: e.target.value})} />
                     </label><br/>
-                    <button className="submit-button"> Submit </button>
+                    <button className="submit-button"> Create Account </button>
                </form>
+
+               <p> Have an account? <Link to="/signIn" > Sign In </Link></p>
             </div>
-        </>
+        </div>
     )
 }

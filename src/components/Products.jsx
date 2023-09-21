@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import fetchProducts from '../API/apiurl'
 import { useNavigate, useParams } from 'react-router-dom';
+import Cart from './Cart';
 
 
 export default function Products() {
@@ -26,10 +27,10 @@ export default function Products() {
 
 
   return (
-    <>
+    <div className="main-page">
     {/* RENDER ALL PRODUCTS */}
     <div>
-        <h2> Alkiin Net Shop </h2>
+        <h2> Cersta Net Shop </h2>
     </div>
 
         {
@@ -53,12 +54,9 @@ export default function Products() {
         })    
         
         }  
-    </>
+    </div>
     )
 
 
 
 }
-
-
-// onClick={navigate(`/products/${item.productId}`)}
