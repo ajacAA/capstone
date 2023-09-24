@@ -6,6 +6,7 @@ export default function Products() {
   //keep track of the products in the array
   const [products, setProducts] = useState([]);
 
+  //use this to navigate to a single product's page
   const nav = useNavigate();
   useEffect(() => {
     //The function returns an array of product objects
@@ -41,7 +42,7 @@ export default function Products() {
                         <h4> {item.title} </h4>
                         <p> ${item.price} </p> <br/>
                     </div>
-                        <button className="add-cart-button" onClick={ async(event) => {} }> add to cart </button>
+                        {/* <button className="add-cart-button" onClick={() =>  cartContext.productIncreaseToCart(item.id)}> add to cart </button> */}
                 </div>
    
            

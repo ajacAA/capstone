@@ -10,7 +10,7 @@ export default function RouteLinks( {token, setToken}) {
     return (
     <Routes>
         <Route path="/products/" element={<Products/>} />
-        <Route path="/products/:productId" element={<SelectProduct/>} />
+        <Route path="/products/:id" element={<SelectProduct/>} />
         <Route path="/signIn/" element={<SignIn token={token} setToken={setToken} />} />
         <Route path="/signUp/" element={<NewAccount/>} />
         <Route path="/cart/" element={<Cart/>} />

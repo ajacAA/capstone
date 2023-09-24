@@ -19,7 +19,7 @@ export default function NavigationBar( {setToken} ) {
 <           Link className="logoImg" to="/products"> Logo </Link>
            
            <div className="navbar-links">
-               <Link to="/cart"> Cart </Link>
+               <Link to="/cart"> Cart {/*quantity of items in the cart*/}</Link>
                <Link onClick={ () => {  setToken(null);
                     localStorage.removeItem("token");
                }

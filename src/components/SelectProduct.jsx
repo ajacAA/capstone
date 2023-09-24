@@ -1,24 +1,28 @@
 /* FETCHING A PRODUCT FROM THE API */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { ApplicationCartContext } from '../API/ApplicationCartContext';
 
 export default function SelectProduct() {
     ////using useState hook, create variables to hold players and set players
     const [product, setProduct] = useState({});
-    const { productId } = useParams();
+    const { id } = useParams();
+    //use this for the back button to navigate back to all products page
     const navigate = useNavigate();
 
-    const [cart, setCart] = useState([]);
-
+  //use useContext to have access to a needed function from the AppCartContext
+  const cartContext = useContext(ApplicationCartContext);
+//   const quantity = cartContext.noOfProducts(product.id);
+  
 
     //call products api to show the items in the api
     useEffect( () => {
         async function Product() {
             try {
                 //get sole item from the api
-                const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
-                console.log("USE PARAMS IN SINGLE PRODUCT", productId)
+                const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+                console.log("USE PARAMS IN SINGLE PRODUCT", id)
                 console.log("RESPONSE ", response);
                 const productObj = await response.json();
                 setProduct(productObj);
@@ -32,18 +36,9 @@ export default function SelectProduct() {
     },[]);
 
 
-    //Add item to cart
-    function addToCart(product) {
-        console.log("ADD TO CART CLICKED");
-        console.log("Product: ", product.price);
-
-        
-        setCart([...cart, product]);
-
-
-    }
-
-    console.log("CART IN SINGLE PRODUCTJSX: ", cart);
+    
+    console.log("CART IN SINGLE PRODUCTJSX: ", cartContext.cartProducts);
+    // console.log("QUANTITY IN CART: ", quantity);
 
 
     return (
@@ -60,7 +55,7 @@ export default function SelectProduct() {
             </div>
 
             {/* ADD QUANTITY OF THE ITEM HERE, DROP DOWN*/}
-            <button className="add-cart-button" onClick={() => addToCart(product)}> add to cart </button>
+            <button className="add-cart-button" onClick={() => cartContext.productIncreaseToCart(product)}> add to cart </button>
         </div>
    
     </>

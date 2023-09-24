@@ -237,8 +237,11 @@ h2 {
     align-self: flex-start;
   }
 
+  .cart-page {
+    height: 100vh;
+  }
   .cart-div {
-
+    
   }
 
   .empty-cart-div {
