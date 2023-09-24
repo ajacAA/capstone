@@ -16,7 +16,7 @@ export default function Cart(props) {
     return (
         <div className="cart-page">
             <h2>CART</h2>
-            <div className="cart-div">
+  
                 {
                     !cart.cartProducts ? <div className="empty-cart-div"> <h1> Cart is empty </h1>
                     
@@ -28,21 +28,27 @@ export default function Cart(props) {
                     cart.cartProducts.map((item, key) => {
                         return (
                             <div key={key} className="cart-item-product" >
-                                <img src={cart.cartProducts[key].image} />
-                                <p> Title: {cart.cartProducts[key].title}</p> 
-                                <p> Quantity: {cart.cartProducts[key].quantity}</p>
-                                <button className="cart-item-button"> - </button> 
-                                 {cart.cartProducts[key].quantity} 
-                                <button className="cart-item-button"> + </button>
+                                <div className="cart-title-img">
+                                    <img className="cart-img" src={cart.cartProducts[key].image} />
+                                    <p className="cart-title-price"> {cart.cartProducts[key].title}</p> 
+                                    <p style={ {color: 'black', fontSize: 18} }> ${cart.cartProducts[key].price} </p>
+                                </div>
+                  
+                                <div className="cart-delete-container">
+                                    <div className="cart-add-minus-button">
+                                        <button className="cart-minus-button" onClick={() => cart.productDecreaseFromCart(cart.cartProducts[key])} > - </button>
+                                        <div className="card-product-quantity"> { cart.cartProducts[key].quantity} </div>
+                                        <button className="cart-add-button" onClick={() => cart.productIncreaseToCart(cart.cartProducts[key])}> + </button>
+                                    </div>
+                                    <button className="cart-delete-button" onClick={() => cart.productDeleteFromCart(cart.cartProducts[key])}> Delete </button> 
+                                </div>
                             </div>
 
                         )
                     
                     })     
             
-                }  
-            </div>
-
+                } 
         </div>
     )
 }

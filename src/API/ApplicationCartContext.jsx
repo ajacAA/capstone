@@ -49,12 +49,6 @@ export function ApplicationCartProvider( { children }) {
             return product.id === item.id;
         });
 
-
-        if(noOfItems === 0) {
-            item.quantity = 1;
-            setProductsInCart({...productsInCart, item});
-        }
-
         const newItem = {...item, quantity: 1};
 
         if(cartItem) {
@@ -135,22 +129,26 @@ export function ApplicationCartProvider( { children }) {
     }
     //setCart([...cart, product]);
     /* Remove a product from the cart */
-    function productDecreaseFromCart(cartProductId) {
-// 
-//         setProductsInCart(itemsInCart => {
-//             if (itemsInCart.find( product => product.id === cartProductId)?.quantity === 1) {
-//                 return itemsInCart.filter(product => product.id !== cartProductId)
-//             }
-//             else {
-//                 return itemsInCart.map(product => {
-//                     if (product.id === cartProductId) {
-//                     return { ...product, quantity: product.quantity + 1} }
-//                     else {
-//                         return product
-//                     }
-//                 })
-//             }
-//         })
+    function productDecreaseFromCart(item) {
+        const cartItem = productsInCart.filter((product) => {
+            return product.id === item.id;
+        });
+
+        const newItem = {...item, quantity: 1};
+
+        if(cartItem) {
+            const newCart = [...productsInCart].map((prod) => {
+                if(prod.id === item.id) {
+                    return {...prod, quantity: cartItem.quantity + 1 };
+                } else {
+                    return prod;
+                }
+            });
+            setProductsInCart(newCart);
+        }
+        else {
+            setProductsInCart([...productsInCart, newItem])
+        }
     }
 
 
