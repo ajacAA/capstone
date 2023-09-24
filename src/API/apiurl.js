@@ -12,4 +12,7 @@ export default async function fetchProducts() {
     catch(error) {
         console.log("Problem fetching products");
     }
+
 }
+
+

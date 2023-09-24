@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useEffect } from "react"
 
-export default function NavigationBar( {token, setToken} ) {
+export default function NavigationBar( {setToken} ) {
     return ( !localStorage.getItem('token') ? 
         <nav className="navbar-unsigned">
             <Link className="logoImg" to="/products"> Logo </Link>
@@ -20,7 +20,7 @@ export default function NavigationBar( {token, setToken} ) {
            
            <div className="navbar-links">
                <Link to="/cart"> Cart </Link>
-               <Link onClick={ () => { 
+               <Link onClick={ () => {  setToken(null);
                     localStorage.removeItem("token");
                }
                 

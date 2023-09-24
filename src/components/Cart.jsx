@@ -3,75 +3,71 @@ import { useNavigate, useParams } from "react-router-dom"
 
 export default function Cart() {
 
-    const [cart, setCart] = useState([]);
-    const [cartProducts, setCartProducts] = useState([]);
     const navigate = useNavigate();
-    //get url id for a specific product
-    const {id} = useParams();
 
-       //FORM AT ITS START STATE
+    //USE LOCAL STORAGE TO GET THE CART ITEMS IN THE LOCAL STORAGE
+    //ITEM AT START
+    const [item, setItem] = useState({
+    image: "", title: "A", price: "", inCart: false
+    });
+        //add item to cart
+    const [cartItems, setCartItems] = useState([])
 
-    useEffect(() => {
-        //The function returns an array of product objects
-        async function CartItems () {
-          try {
-            const response = await fetch('https://fakestoreapi.com/carts/user/2')
-            const itemsInCart = await response.json();
-
-            console.log("Cart items", itemsInCart);
-            setCart(itemsInCart);
-
-            console.log("CART: ", cart);
-
-
+    const [cart, setCart] = useState([]);
     
-          } catch (err) {
-            console.error(err)
-          }
-        }
-        CartItems();
-      }, [])
+
+    cart.push(item);
+
+    //quantity is 0;
+    //if quantity is 1, incart is set to true
+
+    //delete item from cart local storage
+    async function deleteProduct(id) {
 
 
-      //adding items to cart
-      async function deleteProduct(id) {
-        
-      }
-      //products in the cart
-    //   useEffect(() => {
-    //     async function CartProducts() {
-    //         let cartList = [];
-    //         
-    //         for (const product of cart.products || []) {
-    //             const details = await getSingleProduct(product.productId);
-    //             cartList.push(details);
-    //         }
-    //         setCartProducts(cartList);
-    //     }
-    //         cartProducts();
-    //   }, [])
+    }
 
+    //add item to cart local storage
+    async function addProduct(item) {
+    
+    }
 
-
-      return (
+    return (
         <div className="cart-page">
             <h2>CART</h2>
             <div className="cart-div">
             {
-                !cart ? <div className="empty-cart-div"> <h1> Cart is empty </h1>
+                !item.inCart ? <div className="empty-cart-div"> <h1> Cart is empty </h1>
                 
                 <button onClick={() => navigate(`/products`)}> SHOP FOR PRODUCTS </button>
                 
                 </div> :
+                
                 cart.map((item, key) => {
                     return (
-                        <div key={key} className="products-in-cart">
-                            <img src={item.image} />
-                            <h4> {item.title} </h4>
-                            <p> ${item.id} </p> <br/>
+                        <div key={key}>
+                            <p> Image: {item.image} </p>
+                            <p> Title: {item.title}</p>
                         </div>
                     )
                 })
+                // cart.map((item) => {
+                //     return (
+                //         <div key={item.id} className="products-in-cart">
+                //             <p> Date: {item.date} </p>
+                //             {item.products.map((product, key) => {
+                //                 return (
+                //                     <div key={key}>
+                //                         <p> ProductId: {product.productId} </p>
+                //                         <p> Quantity: {product.quantity} </p>
+                //                         <button onClick={ async(event) => {deleteProduct(product.productId)}}> REMOVE </button>
+                //                     </div>
+                //                   
+                //                 )
+                //             })}
+                //         </div>
+                //     )
+                // })
         
             }  
             </div>
@@ -79,5 +75,3 @@ export default function Cart() {
         </div>
     )
 }
-
-

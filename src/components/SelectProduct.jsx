@@ -9,6 +9,10 @@ export default function SelectProduct() {
     const { productId } = useParams();
     const navigate = useNavigate();
 
+    const [cart, setCart] = useState([]);
+
+
+    //call products api to show the items in the api
     useEffect( () => {
         async function Product() {
             try {
@@ -27,6 +31,21 @@ export default function SelectProduct() {
             Product();
     },[]);
 
+
+    //Add item to cart
+    function addToCart(product) {
+        console.log("ADD TO CART CLICKED");
+        console.log("Product: ", product.price);
+
+        
+        setCart([...cart, product]);
+
+
+    }
+
+    console.log("CART IN SINGLE PRODUCTJSX: ", cart);
+
+
     return (
     <>
         <div className="single-product-main-div" >
@@ -39,7 +58,9 @@ export default function SelectProduct() {
                 <p> ${product.price} </p> <br/>
                 <p> Description {product.description} </p>
             </div>
-                    <button className="add-cart-button"> add to cart </button>
+
+            {/* ADD QUANTITY OF THE ITEM HERE, DROP DOWN*/}
+            <button className="add-cart-button" onClick={() => addToCart(product)}> add to cart </button>
         </div>
    
     </>

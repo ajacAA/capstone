@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import fetchProducts from '../API/apiurl'
 import { useNavigate, useParams } from 'react-router-dom';
-import Cart from './Cart';
-
 
 export default function Products() {
   //keep track of the products in the array
@@ -24,8 +22,6 @@ export default function Products() {
     AllProducts();
   }, [])
 
-
-
   return (
     <div className="main-page">
     {/* RENDER ALL PRODUCTS */}
@@ -45,7 +41,7 @@ export default function Products() {
                         <h4> {item.title} </h4>
                         <p> ${item.price} </p> <br/>
                     </div>
-                        <button className="add-cart-button"> add to cart </button>
+                        <button className="add-cart-button" onClick={ async(event) => {} }> add to cart </button>
                 </div>
    
            
