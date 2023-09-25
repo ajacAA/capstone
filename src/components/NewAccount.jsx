@@ -46,12 +46,6 @@ export default function NewAccount() {
                 const account = await response.json();
                 //set the state of added player
                 setAccountForm(account);
-
-
-        //get all users 
-        fetch('https://fakestoreapi.com/users')
-        .then(res=>res.json())
-        .then(json=>console.log("ALL USERS", json))
             }
             catch(error) {
                 setError(error.message);

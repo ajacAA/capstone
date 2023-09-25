@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 /* CONTEXT - GIVES THE APPLICATION COMPONENTS WRAPPED INSIDE IT, ACCESS TO ITS DATA i.e methods, variables*/
 export const ApplicationCartContext = createContext({
@@ -12,7 +12,7 @@ export const ApplicationCartContext = createContext({
     productDeleteFromCart: () => {},
     //getters for the cost and amount of products
     totalProductCost: () => {},
-    noOfProducts: () => {}, //number of products in the cart
+    getThisItem: () => {}, //number of products in the cart
 });
 
 //To return the children of this provider 
@@ -24,145 +24,84 @@ export function ApplicationCartProvider( { children }) {
 
     //DEFINE THE FUNCTIONS IN THE CONTEXT TO USE
 
-    /* Returns the quantity of an item in the cart */
-    function noOfProducts(item) {
-        const quantity =  productsInCart.find((product) => {
-            product.id === item.id
+    /* Returns the item added and it's quantity can be retreaved through the dot product to access its quantity the cart */
+    function getThisItem(item) {
+        const cartProd =  productsInCart.find((product) => {
+           return product.id === item.id
         })
         //returns zero if the number of items in the cart is zero
-        if (quantity === undefined) {
+        if (cartProd === undefined) {
             return 0;
         }
 
-        console.log("NOOFPRODUCTS: ", quantity);
+        console.log("NOOFPRODUCTS: ", cartProd);
 
-        return quantity;
+        return cartProd;
     }
 
     /* Add a product to the cart */
     function productIncreaseToCart(item) {
 
-        const noOfItems = noOfProducts(item.id); //this is the returned number of items in the cart from the noOfProducts function
+        //returned item from getThisItem, check the cart if the product is there.
+        const myItem = getThisItem(item);
 
-
-        const cartItem = productsInCart.find((product) => {
-            return product.id === item.id;
-        });
-
-        const newItem = {...item, quantity: 1};
-
-        if(cartItem) {
-            const newCart = [...productsInCart].map((prod) => {
+        //add if not found in the array
+        const newProduct = {...item, quantity: 1};
+        //Product already in the cart, increase its quantity
+        if(myItem) {
+            //use spread operator to extract the values of the product to modify it
+            const cartItem = [...productsInCart].map((prod) => {
                 if(prod.id === item.id) {
-                    return {...prod, quantity: cartItem.quantity + 1 };
+                    return {...prod, quantity: myItem.quantity + 1 };
                 } else {
                     return prod;
                 }
             });
-            setProductsInCart(newCart);
+            setProductsInCart(cartItem);
         }
         else {
-            setProductsInCart([...productsInCart, newItem])
-        }
-
-
-        // else {
-        //     setProductsInCart(
-        //         [...productsInCart].map((product) => {
-        //            if(product.id === item.id) 
-        //                 // product.quantity = quantity + 1;
-        //             //  return {...product, quantity: product.quantity + 1} 
-        //             return 0;
-        //                                 
-        //         })
-        //     )
-        // }
-        //     setProductsInCart(productsInCart => {
-        //         if (productsInCart.find( (product) => { product.id === item.id ) == null) {
-        //             return [...productsInCart, { id: [item.id], quantity: 1}]
-        //         }
-        //         else {
-        //             return productsInCart.map(product => {
-        //                 if (product.id === item.id) {
-        //                 return { ...product, quantity: product.quantity + 1} }
-        //                 else {
-        //                     return product
-        //                 }
-        //             })
-        //     }
-        //     }
-        // )
-
-
-        //check the cart if the product is there. Product already in the cart, increase its quantity 
-
-            //modify the quantity of the found product
-           //use spread operator to extract the values of the product to modify it
-
-
-
-
-
-
-
-
-
-
-
-//         setProductsInCart(itemsInCart => {
-//             if (itemsInCart.find( product => product.id === cartProductId ) == null) {
-//                 return [...itemsInCart, {cartProductId, quantity: 1}]
-//             }
-//             else {
-//                 return itemsInCart.map(product => {
-//                     if (product.id === cartProductId) {
-//                     return { ...product, quantity: product.quantity + 1} }
-//                     else {
-//                         return product
-//                     }
-//                 })
-//             }
-//         })
-
-
-        // console.log("CARTPRODUCTID: ", cartProductId)
+            setProductsInCart([...productsInCart, newProduct])
+        }  
     }
-    //setCart([...cart, product]);
+
     /* Remove a product from the cart */
     function productDecreaseFromCart(item) {
-        const cartItem = productsInCart.filter((product) => {
-            return product.id === item.id;
-        });
+        //returned item which is found in the array
+        const myItem = getThisItem(item);
 
-        const newItem = {...item, quantity: 1};
-
-        if(cartItem) {
-            const newCart = [...productsInCart].map((prod) => {
+        //Item is found, decrement the amount in the cart
+        if(myItem) {
+            const cartItem = productsInCart.map((prod) => {
                 if(prod.id === item.id) {
-                    return {...prod, quantity: cartItem.quantity + 1 };
+                    return {...prod, quantity: myItem.quantity - 1 };
                 } else {
                     return prod;
                 }
             });
-            setProductsInCart(newCart);
+            setProductsInCart(cartItem);
         }
-        else {
-            setProductsInCart([...productsInCart, newItem])
-        }
+        if(myItem.quantity === 1)
+        productDeleteFromCart(item);
+   
     }
 
 
     /* Get the total cost of the products in the cart */
     function totalProductCost() {
-
+        let sum = 0;
+        productsInCart.map((product) => {
+            const returnedItem = getThisItem(product);
+            sum += (returnedItem.price * product.quantity);
+        })
+        return sum;
     }
 
 
     /* Delete a product abruptly from the cart */
-    function productDeleteFromCart(cartProductId) {
-        // setProductsInCart(itemsInCart => {
-        //     return itemsInCart.filter(product => product.id !== cartProductId)
-        // })
+    function productDeleteFromCart(item) {
+        setProductsInCart(itemsInCart => {
+            return itemsInCart.filter(product => product.id !== item.id)
+        })
     }
         const context = {          
             productIncreaseToCart,
@@ -171,7 +110,7 @@ export function ApplicationCartProvider( { children }) {
             productDecreaseFromCart,
             productDeleteFromCart,
             totalProductCost,
-            noOfProducts
+            getThisItem,
         }
 
     return (

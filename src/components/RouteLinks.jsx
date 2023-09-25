@@ -4,7 +4,8 @@ import { Routes, Route } from 'react-router-dom'
 import SignIn from "./SignIn"
 import NewAccount from "./NewAccount"
 import Cart from "./Cart"
-import { set } from "react-hook-form"
+import Checkout from "./Checkout"
+import OrderPlaced from "./OrderPlaced"
 
 export default function RouteLinks( {token, setToken}) {
     return (
@@ -14,6 +15,8 @@ export default function RouteLinks( {token, setToken}) {
         <Route path="/signIn/" element={<SignIn token={token} setToken={setToken} />} />
         <Route path="/signUp/" element={<NewAccount/>} />
         <Route path="/cart/" element={<Cart/>} />
+        <Route path="/checkout/" element={<Checkout/>} />
+        <Route path="/orderplaced/" element={<OrderPlaced/>} />
     </Routes>
     )
 }

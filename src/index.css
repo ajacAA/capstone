@@ -317,6 +317,19 @@ h2 {
     padding: 6px 20px 10px 20px;
     border-radius: 12px;
   }
+
+
+
+  /* checkout page */
+  .checkout-page {
+    background-color: hsla(243.52941176470586,10.059171597633135%,33.13725490196078%,1);
+    height: 100vh;
+    width: 85vw;
+  }
+
+  .order-placed {
+    height: 100vh;
+  }
 } /* END OF MOBILE MODE */
 
 
