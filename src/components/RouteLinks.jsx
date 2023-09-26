@@ -15,7 +15,7 @@ export default function RouteLinks( {token, setToken}) {
         <Route path="/signIn/" element={<SignIn token={token} setToken={setToken} />} />
         <Route path="/signUp/" element={<NewAccount/>} />
         <Route path="/cart/" element={<Cart/>} />
-        <Route path="/checkout/" element={<Checkout/>} />
+        <Route path="/checkout/" element={<Checkout token={token} setToken={setToken}/>} />
         <Route path="/orderplaced/" element={<OrderPlaced/>} />
     </Routes>
     )

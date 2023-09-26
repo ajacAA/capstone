@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useContext } from "react";
 import { ApplicationCartContext } from "../API/ApplicationCartContext";
 
 export default function NavigationBar( {setToken} ) {
+
+    const nav = useNavigate();
 
     const cartContext = useContext(ApplicationCartContext);
     const noOfItemsInCart = cartContext.cartProducts.reduce((sum, item) => sum + item.quantity, 0);
@@ -24,12 +26,12 @@ export default function NavigationBar( {setToken} ) {
 <           Link className="logoImg" to="/products"> Logo </Link>
            
            <div className="navbar-links">
-               <Link to="/cart"> Cart {/*quantity of items in the cart*/}</Link>
+               <Link to="/cart"> Cart ({noOfItemsInCart})</Link>
                <Link onClick={ () => {  setToken(null);
                     localStorage.removeItem("token");
+                    nav('/products/');
                }
-                
-             } to="/products/"> Sign Out </Link>
+                } > Sign Out </Link>
            </div>
 
 

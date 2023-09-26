@@ -1,6 +1,7 @@
 import { ApplicationCartContext } from "../API/ApplicationCartContext";
 import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import fetchUsers from "../API/users";
 
 export default function Checkout({token, setToken}) {
     // Format the price above to USD 
@@ -11,7 +12,7 @@ export default function Checkout({token, setToken}) {
 
     //use navigate to navigate to placed order
     const navigate = useNavigate();
-
+    // const { id } = useParams();
     //import context
     const cartContext = useContext(ApplicationCartContext);
 
@@ -22,7 +23,7 @@ export default function Checkout({token, setToken}) {
     expiration: "",
     cvv: ""}
     );
-    //user already in the api
+    //state for the user object. use to store form info
     const [user, setUser] = useState({
         email: "", username: "", password: "", name: {firstname: "", lastname: ""},
         address:{
@@ -43,12 +44,32 @@ export default function Checkout({token, setToken}) {
         zipcode: ""
     })
 
+  //keep track of the users in the array
+  const [allUsers, setAllUsers] = useState([]);
+
+  useEffect(() => {
+    //returns an array of user objects
+    async function Users (){
+      try {
+        const response = await fetchUsers();
+        const users = await response.json();
+        setAllUsers(users);
+        console.log("Users", users);
+
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    Users();
+  }, [])
+
+
     //fetch user
     useEffect(() => {
         //The function returns an array of product objects
         async function fetchUser (){
           try {
-            const response = await fetch('https://fakestoreapi.com/users/1');
+            const response = await fetch(`https://fakestoreapi.com/users/1`);
             const userObj = await response.json();
             setUser(userObj);
             console.log("User", userObj);
@@ -61,35 +82,39 @@ export default function Checkout({token, setToken}) {
       }, [])
 
 
+
       async function handleSubmit(event) {
         event.preventDefault();
+        //input validation
     
       }
 
       async function handleShipping(event) {
         event.preventDefault();
+        //input validation
     
       }
-
 
     return (
         <div className="checkout-page">
             <h3> Checkout Continuation </h3>
 
-            <div className="shipping-box">
-                <p>Shipping to: {user.name.firstname}  {user.name.lastname} </p>
+            { token ? 
+                <section>
+                    <div className="shipping-box">
+                        <p>Shipping to: {user.name.firstname}  {user.name.lastname} </p>
 
-                <p>Order Total: {dollarAmount.format(cartContext.totalProductCost())} </p>
+                        <p>Order Total: {dollarAmount.format(cartContext.totalProductCost())} </p>
 
-            </div>
+                    </div>
 
-            {/* only show the shipping form if user is not logged in */}
-
-            {
-              token ? <p> Delivering address <br/>
-                {user.address.number} {user.address.street}, {user.address.city}, {user.address.zipcode}
-                
-                </p> :            
+                    <p> Delivering address <br/>
+                        {user.address.number} {user.address.street}, {user.address.city}, {user.address.zipcode}
+                    </p> 
+                </section>
+                :
+                /* Guest checkout - only show the shipping form if user is not logged in */
+                          
                 /* for guest purchase */
                 <form className="shipping-form" onSubmit={handleShipping}>
 
@@ -120,9 +145,7 @@ export default function Checkout({token, setToken}) {
 
                 </form>
 
-            }
-
-
+            } {/* end of user loggedIn info */}
 
             <p> Payment Information </p>
 
@@ -150,14 +173,16 @@ export default function Checkout({token, setToken}) {
             {
                 cartContext.cartProducts.map((product, key) => {
                     return(
-                        <div className="checkout-products" >
+                        <div key={key} className="checkout-products" >
                         <p> {product.title}</p>
                         <p>Quantity: {product.quantity}</p>
                         <p>Price: {dollarAmount.format(product.price)}</p>
-            
                     </div>
                     )
                 })
+            }
+            {
+                !token && <p>Order Total: {dollarAmount.format(cartContext.totalProductCost())} </p>
             }
 
             {/* after order is placed, remove all the items from the cart */}
